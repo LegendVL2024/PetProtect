@@ -1,16 +1,40 @@
 package Controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import Db.Database;
 import Model.Adocao;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdocaoController {
+
     public List<Adocao> listarAdocoes() {
-        List<Adocao> lista = new ArrayList<>();
+        List<Adocao> adocoes = new ArrayList<>();
 
-        Adocao adocao = new Adocao(20230905, "Aprovado", "Sem observações");
-        lista.add(adocao);
+        // try-with-resources para garantir que a conexão seja fechada
+        try (Connection conn = Database.getConnection()) {
+            String sql = "SELECT * FROM Adocao";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
-        return lista;
+            while (rs.next()) {
+                Adocao a = new Adocao(
+                        rs.getInt("id_adocao"),
+                        rs.getInt("id_usuario"),
+                        rs.getInt("id_animal"),
+                        rs.getInt("id_veterinario"),
+                        rs.getString("data_adocao"),
+                        rs.getString("status"),
+                        rs.getString("observacoes")
+                );
+                adocoes.add(a);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return adocoes;
     }
 }
