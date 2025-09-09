@@ -1,18 +1,14 @@
 package View;
 
-package View;
-
-
-import java.util.List;
 import Model.Adocao;
+import java.util.List;
 
 public class AdocaoView {
+
     public void mostrarAdocoes(List<Adocao> adocoes) {
-        for (Adocao adocao : adocoes) {
-            System.out.println("Data: " + adocao.getDataAdocao());
-            System.out.println("Status: " + adocao.getStatus());
-            System.out.println("Observações: " + adocao.getObservacoes());
-            System.out.println("-----------");
+        System.out.println("=== Lista de Adoções ===");
+        for (Adocao a : adocoes) {
+            System.out.println(a);
         }
     }
 }
